@@ -1,0 +1,51 @@
+---
+title: "microbiomepower"
+author: "George Savva"
+date: "13/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Choosing a sample size is an important part of any research study design.
+
+To understand sample size it is important to understand what are the 'units of analysis' in your study as opposed to the 'units of observation'.
+
+'Sample size' typically refers to the number of units of analysis in your experiment, though it is just as important to decide the number of observations that you make for each.
+
+## How does sample size affect an experiment
+
+In short, sample size governs the precision of the estimates from your study.
+
+The simple equation:
+
+
+
+If you are conducting hypothesis tests, your sample size governs the 'power' of your study to detect deviations from null hypotheses.  
+
+So these frameworks (power and precision) are the two different ways 
+
+## Power
+
+## Precision
+
+## What are the implications of a sample size that is too high, or too low.
+
+Sam,p
+
+## A review of literature on power and sample size in microbiome studies.
+
+### Search terms and results:
+
+WoK: 18 results for (TI=microbiome  AND (TI=sample size  OR TI=power))  AND LANGUAGE: (English)
+Abstract search reduced this to 11 papers.
+
+# Summary of each approach:
+
+Chen (2020) POWMIC:
+
+
