@@ -1,8 +1,11 @@
 ---
-title: "microbiomepower"
+title: "Sample size for a microbiome experiment"
 author: "George Savva"
 date: "13/01/2021"
-output: html_document
+output: 
+    html_document:
+      theme: cosmo
+
 ---
 
 ```{r setup, include=FALSE}
@@ -11,41 +14,125 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-Choosing a sample size is an important part of any research study design.
+Choosing a sample size is an important part of any research study design.  'Sample size' typically refers to the number of experimental units, though it is just as important to decide the number of observations that you make for each.
 
-To understand sample size it is important to understand what are the 'units of analysis' in your study as opposed to the 'units of observation'.
+## Analytic vs pragmatic considerations
 
-'Sample size' typically refers to the number of units of analysis in your experiment, though it is just as important to decide the number of observations that you make for each.
+## Adaptive or seqential design
 
 ## How does sample size affect an experiment
 
-In short, sample size governs the precision of the estimates from your study.
+In short, sample size governs the *precision* of the estimates from your study (reflect in, for example, their standard errors).  If you are conducting hypothesis tests, the precision in turn governs the *power* of your study to detect deviations from null hypotheses. The power to detect an effect is the probability that you will successfully identify it.  We typically choose to design our studies with 80% or 90% power.  This means that we accept a 10% to 20% risk of missing a true effect.  
 
 The simple equation:
 
+$s.e. \propto \frac{s.d.}{\sqrt{n}}$
+
+Describes the relationship between the standard error of an estimate, the standard deviation of the outcome measure used to calculate it, and the sample size used (with the exact relationship depending on study design).  
+
+So, for example, as sample size doubles, standard error of estimates (hence the width of confidence intervals) will decrease by a factor of $\sqrt{2}$.  With respect to power, more precision mean that smaller differences between groups can be detected.  A doubling of sample size will lead to the ability to detect effect that are $\sqrt{2}$ times smaller.
+
+So choosing the sample size requires that you know: 
+
+1. **The hypothesis (or hypotheses) that you are planning to test or the parameters you want to estimate.**  These will follow from your study aims.  
+2. The study design and analytical methods you will use to address these aims
+3. **The likely variation in the outcome measures.**  This will come from prior data.  
+4. **The precision required, or the size of the effect that you want to be able to reliably detect.**  The precision required or minimum effect sizes can be guided by a combination of prior data (to establish what might be a feasible difference) and your own study aims (to establish what is the smallest difference that would be considered important enough not to want to miss).
+5. **The critical p-value for your test.**  Our convention is to apply a threshold of p<0.05 for statistical significance.  The main reason for deviating from a critical threshold of 0.05 is an adjustment for multiple testing.  If you are testing many hypotheses (such as many different candidate microbiome features) then you might make a correction to a p-value, and so the critical threshold for each individual test will be lower.
+
+6. **The required power.**  
+
+# Approaches to power and sample size considerations
+
+### Complex designs 1 : Cross-over and paired designs or repeated measure designs with the comparison *within* groups.
+
+Designs where more than one observation is taken per participant are more efficient or where groups of similar individuals can be .
+
+Designs where
+
+### Complex designs 2 : Cage-effects and intra-class correlation and repeated measures designs with the comparison *across* groups.
+
+Statistical power (and precision) is detemined by the number of independent experimental units. Where units are not treated independently of each other, so called 'intra-class correlations' (ICC) can be introduced, and this affects the calculation of standard error and hence study power and required sample sizes.
+
+ICC between experimental units can be caused by factors that jointly influence specific units (such as a shared environment, shared genetic background, or contamination within a group).  This can caused outcomes within groups to be more similar than we would expect by chance, and so each unit contributes less information to the study than 
+
+For example, we have observed strong intra-class correlations in microbiomes of mice sharing cages, and of fish sharing water systems.  This is unsurprising given the sensitivity of microbiomes to external factors.
+
+The 'design effect' of a study is the factor by which we need to inflate the sample size to take into account intra-class correlation.  The design effect is calculated by:
+
+$\text{Design effect} = 1 + ICC \times (n-1)$
+
+Where ICC is the intra-class correlation, and $n$ is the number of animals per group.  ICC is the proportion of total variation that is attributable to group membership as opposed to individual variation.  It is calculated by:
+
+$ICC = \frac{{sd}^2_{between}}{ {sd}^2_{between} + {sd}^2_{within}}$
+
+For example, an ICC of 0.3 is not uncommon in microbiomes (correspond to 1/3  of variance being cage-specific).  So if mice are to be housed five to a cage, then required sample sizes should be inflated by a factor of around $1+.3*4 = 2.2$ to account for this.
+
+### Analytical methods for sample size calculation
+
+For simple designs and analyses, required sample sizes can be calculated using standard formulas.  For example, for a comparison of alpha diversity between two independent groups, a power calculation for a simple unpaired t-test would be appropriate. Standard tools such as G*power or functions from the R pwr and pwr2 packages can be used. Adjustments can be made for some more complex designs or multiple testing.
+
+## Power and sample size by simulation
+
+For more complex designs or outcomes, where formulas are not available sample sizes can be calculated by simulation.  This proceeds as follows:
+
+1. Create 'fake' datasets that are as similar as possible to the real data that you are likely to observe, with typical levels of variation and including the effects that you wish to be able to detect
+2. Analyse these using your planned methods, and find the proportion of datasets in which you were able to successfully detect the effect(s) of interest.
+3. Vary the sample size and any other assumptions to check how the 
+
+This method relies on being able to simulate realistic datasets with realistic but artificially induced effects.  XX presents a guide to achiving this...
+
+# Approaches to power and sample size for typical aims
+
+## Comparisons of alpha diversity
+
+## Comparisons of beta diversity
+
+## Overall comparisons of distributions
+
+## Differential abundance of individual features.
+
+## Account for loss of data
 
 
-If you are conducting hypothesis tests, your sample size governs the 'power' of your study to detect deviations from null hypotheses.  
-
-So these frameworks (power and precision) are the two different ways 
-
-## Power
 
 ## Precision
 
 ## What are the implications of a sample size that is too high, or too low.
 
-Sam,p
-
-## A review of literature on power and sample size in microbiome studies.
+## Appendix: A short scoping review of literature on power and sample size in microbiome studies.
 
 ### Search terms and results:
 
+A search was conducted using World of Knowledge, and the search terms:  
+
 WoK: 18 results for (TI=microbiome  AND (TI=sample size  OR TI=power))  AND LANGUAGE: (English)
 Abstract search reduced this to 11 papers.
+12 January 2021
 
 # Summary of each approach:
 
 Chen (2020) POWMIC:
+Use real data to estimate the parameters of data to simulate.
+Calculate the proportion of true positive and false positive detections.
+edgeR and microbiome
+
+Would be good to extend to see the power curve - that is what proportion are detected at what true difference..
+
+Casals-Pascual, C; Gonzalez, A; Vazquez-Baeza, Y; Song, SJ; Jiang, LJ; Knight, R	Casals-Pascual, Climent; Gonzalez, Antonio; Vazquez-Baeza, Yoshiki; Song, Se Jin; Jiang, Lingjing; Knight, Rob	Microbial Diversity in Clinical Microbiome Studies: Sample Size and Statistical Power Considerations	GASTROENTEROLOGY
+Casals-Pascual et al 
+Phylogenetic diversity and Unifrac:
+For beta diversity
+Null hypothesis is that the difference in distance between pairs within groups is smaller than the distance between groups.  Power proceeds from comparing the average 'between' bet a diversity to the average 'within' beta diversity.
+
+
+Kelly, BJ; Gross, R; Bittinger, K; Sherrill-Mix, S; Lewis, JD; Collman, RG; Bushman, FD; Li, HZ	Kelly, Brendan J.; Gross, Robert; Bittinger, Kyle; Sherrill-Mix, Scott; Lewis, James D.; Collman, Ronald G.; Bushman, Frederic D.; Li, Hongzhe	Power and sample-size estimation for microbiome studies using pairwise distances and PERMANOVA	BIOINFORMATICS
+
+
+
+La Rosa, PS; Brooks, JP; Deych, E; Boone, EL; Edwards, DJ; Wang, Q; Sodergren, E; Weinstock, G; Shannon, WD	La Rosa, Patricio S.; Brooks, J. Paul; Deych, Elena; Boone, Edward L.; Edwards, David J.; Wang, Qin; Sodergren, Erica; Weinstock, George; Shannon, William D.	Hypothesis Testing and Power Calculations for Taxonomic-Based Human Microbiome Data	PLOS ONE
+
+
+
 
 
