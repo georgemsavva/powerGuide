@@ -14,41 +14,64 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-Choosing a sample size is an important part of any research study design.  'Sample size' typically refers to the number of experimental units, though it is just as important to decide the number of observations that you make for each.
+Choosing the number of experimental units (the 'sample size') is an important part of any research study design.  A greater sample size means that estimates from your study will be more precise.  However using too many samples has ethical and resource implications, and so you need to trade off this precision against cost.  
 
-## Analytic vs pragmatic considerations
+A sample size calculation finds the smallest sample size that gives you an acceptable chance of meeting your study aims.
 
-## Adaptive or seqential design
+Hence your study aims, and what constitutes an 'acceptable' risk of failure both need to be clearly known.
 
 ## How does sample size affect an experiment
 
-In short, sample size governs the *precision* of the estimates from your study (reflect in, for example, their standard errors).  If you are conducting hypothesis tests, the precision in turn governs the *power* of your study to detect deviations from null hypotheses. The power to detect an effect is the probability that you will successfully identify it.  We typically choose to design our studies with 80% or 90% power.  This means that we accept a 10% to 20% risk of missing a true effect.  
+Sample size governs the *precision* of the estimates from your study (reflected by, for example, their standard errors).  If you are conducting hypothesis tests, this precision in turn governs the *power* of your study to detect deviations from null hypotheses. 
+
+The power of a study to detect an effect is defined as the probability that the study will successfully identify it, if it in fact exists.  We typically choose to design our studies with 80% or 90% power.  This means that we accept a 10% to 20% risk of missing a true effect.  
 
 The simple equation:
 
-$s.e. \propto \frac{s.d.}{\sqrt{n}}$
+$$s.e. \propto \frac{s.d.}{\sqrt{n}}$$
 
 Describes the relationship between the standard error of an estimate, the standard deviation of the outcome measure used to calculate it, and the sample size used (with the exact relationship depending on study design).  
 
-So, for example, as sample size doubles, standard error of estimates (hence the width of confidence intervals) will decrease by a factor of $\sqrt{2}$.  With respect to power, more precision mean that smaller differences between groups can be detected.  A doubling of sample size will lead to the ability to detect effect that are $\sqrt{2}$ times smaller.
+So, for example, as sample size doubles, standard error of estimates (hence the width of confidence intervals) will decrease by a factor of $\sqrt{2}$.  With respect to power, more precision mean that smaller differences between groups can be detected.  Doubling of sample size will lead to the ability to detect effects that are $\sqrt{2}$ times smaller.
+
+## Information needed for a sample size calculation
 
 So choosing the sample size requires that you know: 
 
 1. **The hypothesis (or hypotheses) that you are planning to test or the parameters you want to estimate.**  These will follow from your study aims.  
 2. The study design and analytical methods you will use to address these aims
-3. **The likely variation in the outcome measures.**  This will come from prior data.  
+3. **The likely variation in the outcome measures.**  This will likely come from prior data on a similar outcome in a similar population.  
 4. **The precision required, or the size of the effect that you want to be able to reliably detect.**  The precision required or minimum effect sizes can be guided by a combination of prior data (to establish what might be a feasible difference) and your own study aims (to establish what is the smallest difference that would be considered important enough not to want to miss).
-5. **The critical p-value for your test.**  Our convention is to apply a threshold of p<0.05 for statistical significance.  The main reason for deviating from a critical threshold of 0.05 is an adjustment for multiple testing.  If you are testing many hypotheses (such as many different candidate microbiome features) then you might make a correction to a p-value, and so the critical threshold for each individual test will be lower.
 
-6. **The required power.**  
+And if you will use a 'hypothesis testing' framework in your analysis:
+
+5. **The threshold for statistical significance.**  Our convention is to apply a threshold of p<0.05 for statistical significance.  The most commmon reason for deviating from a critical threshold of 0.05 is an adjustment for multiple testing.  If you are testing many hypotheses (such as many different candidate microbiome features) then you might make a correction to a p-value, controlling instead a false discovery rate (FDR) in which case the required FDR should be known.
+6. **The required power.**  How much risk of missing a true effect are you willing to accept, equivilantly what proportion of missed true effects are you willing to accept.
 
 # Approaches to power and sample size considerations
 
 ### Complex designs 1 : Cross-over and paired designs or repeated measure designs with the comparison *within* groups.
 
-Designs where more than one observation is taken per participant are more efficient or where groups of similar individuals can be .
+If sources of variation can be removed from estimates of the comparions of interest, then studies will be more efficient and power required will be reduced.  The simplest example of this is in paired experiments.
 
-Designs where
+For example, in a paired study, the variance in outcomes between pairs is not important, since we make our comparison within pairs.  
+
+Suppose we have N observations per group, and we are interested in a between groups comparison.  Then if the experimental units vary with standard deviation of $sd_{total}$, then the standard error of the estimate is:
+
+$$se= \sqrt{2}\times\frac{sd}{\sqrt{N}}$$
+
+If we can pair our observations and divide the between unit variance into the variance between pairs and the variance within pairs, and we assign one of each pair to each group, then our estimate has variance:
+
+$$se= \sqrt{2}\times\frac{sd_{within}}{\sqrt{N}}$$
+
+That is, the precision has been improved by a factor of
+
+$$\frac{sd^2}{sd^2_{within}} = \frac{1}{1-ICC}$$
+where $ICC$ is intra-class correlation within pairs of observations.
+
+So the effective sample size has been increased by a factor of $\frac{1}{1-ICC}$, so we can reduce the sample size by this same factor.
+
+Note the benefit of using a paired design depends on the 
 
 ### Complex designs 2 : Cage-effects and intra-class correlation and repeated measures designs with the comparison *across* groups.
 
@@ -66,21 +89,26 @@ Where ICC is the intra-class correlation, and $n$ is the number of animals per g
 
 $ICC = \frac{{sd}^2_{between}}{ {sd}^2_{between} + {sd}^2_{within}}$
 
-For example, an ICC of 0.3 is not uncommon in microbiomes (correspond to 1/3  of variance being cage-specific).  So if mice are to be housed five to a cage, then required sample sizes should be inflated by a factor of around $1+.3*4 = 2.2$ to account for this.
+For example, an ICC of 0.3 is not uncommon in the microbiomes of mice housed in the same cages (correspond to around 1/3 of variance being cage-specific as opposed to mouse-specific).  So if mice are to be housed five to a cage, then required sample sizes should be inflated by a factor of around $1+.3*4 = 2.2$ to account for this.
 
-### Analytical methods for sample size calculation
+### Methods for sample size calculation
 
-For simple designs and analyses, required sample sizes can be calculated using standard formulas.  For example, for a comparison of alpha diversity between two independent groups, a power calculation for a simple unpaired t-test would be appropriate. Standard tools such as G*power or functions from the R pwr and pwr2 packages can be used. Adjustments can be made for some more complex designs or multiple testing.
+For simple designs and analyses, required sample sizes can be calculated using standard formulas.  For example, if your aim is to compare alpha diversity between two independent groups, a power calculation for a simple unpaired t-test would be appropriate. Standard free to use tools such as 'G*power' or functions from the 'R' 'pwr' and 'pwr2' packages can be used. 
+
+## Example:  Sample size calculation for alpha diversity
+
 
 ## Power and sample size by simulation
 
-For more complex designs or outcomes, where formulas are not available sample sizes can be calculated by simulation.  This proceeds as follows:
+For more complex designs or outcomes, where formulas are not available, sample sizes can be calculated by simulation.  This proceeds as follows:
 
-1. Create 'fake' datasets that are as similar as possible to the real data that you are likely to observe, with typical levels of variation and including the effects that you wish to be able to detect
+1. Create 'fake' datasets that are as similar as possible to the real data that you are likely to observe, with typical levels of variation and including the effects that you wish to be able to detect.
 2. Analyse these using your planned methods, and find the proportion of datasets in which you were able to successfully detect the effect(s) of interest.
-3. Vary the sample size and any other assumptions to check how the 
+3. Vary the sample size and any other assumptions to check how the power varies.
 
-This method relies on being able to simulate realistic datasets with realistic but artificially induced effects.  XX presents a guide to achiving this...
+This method relies on being able to simulate realisticly structured datasets with realistic but artificially induced effects.
+
+There are two main approaches for this.  XX presents a guide to achiving this...
 
 # Approaches to power and sample size for typical aims
 
