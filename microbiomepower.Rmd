@@ -1,7 +1,7 @@
 ---
 title: "Sample size for a microbiome experiment"
 author: "George Savva"
-date: "13/01/2021"
+date: "27 March 2021"
 output: 
     html_document:
       theme: cosmo
