@@ -14,11 +14,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-Choosing the number of experimental units (the 'sample size') is an important part of any research study design.  A greater sample size means that estimates from your study will be more precise.  However using too many samples has ethical and resource implications, and so you need to trade off this precision against cost.  
+Choosing the number of experimental units (the 'sample size') is an important part of any research study design.  A greater sample size means that estimates from your study will be more precise.  Using too many samples has ethical and resource implications, and so you need to trade off this precision against cost.
 
 A sample size calculation finds the smallest sample size that gives you an acceptable chance of meeting your study aims.
 
-Hence your study aims, and what constitutes an 'acceptable' risk of failure both need to be clearly known.
+Hence your study aims, and what constitutes an 'acceptable' risk of failure both need to be known.
+
+* Be clear about what the goal of your study is, that is, what question(s) must your study be able to answer.
+
+For confirmatory studies targetting specific features of the microbiome, standard approaches to sample size calculations (power calculations or calculations based on precision of effect estimates) can be adopted.
+
+For exploratory studies, where there are no particular hypothesised effects, sample size calculations are more difficult, since there is no criterion to determine the success or failure of a study.  In this case, you might explore the likely effect sizes detectable at different sample sizes (using previous literature or data as a guide) and then find the likely precision of your own study at different sample sizes.
+
+* Be clear whether your study is confirmatory (aiming to test a specific hypothesis or estimate a specific quantity such as a prevalence) or exploratory (looking for differences)
+
+* For a confirmatory study, that is a study to test specific hypotheses or estimate specific quantities, identify the elements required for a sample size calculation (described below).
+
+* For an exploratory study, use previous data to establish the likely effect sizes for different microbial features detectable by your study at different sample sizes, and find the trade-off between precision and cost that you are satisfied with.  You could either use published effect sizes directly if they are available, or conduct studies by simulation using real or simulated data (see below).
+
+The literature on sample size calculations specific to microbiome studies is extremely limited, but is likely to improve in the near future.  Any justifiable method for calculating sample sizes is acceptable, but important considerations are:
+
+* Being honest about sample size requirements and the feasibility of your study.  Many sample size calculations are fudged to fit budget constraints, by using favourable estimates of standard deviation and effect size.  While this might 
+
+* Make sure your calculation matches your design and your objectives.
+
+* Be wary of *significant* estimates arising from previously published work.  We know that published effect sizes are prone to upward bias, and so taking say 50% of the published effect size as the likely effect size for replication is reasonable.
+
+* Note also that if a previous study returned a p-value of exactly or very close to 0.05, then the study had only 50% power to detect the effect that it reported.  This can be easily seen if you consider that an exact replication of this study would be equally likely to return a p-value above or below the p-value of the original, that is above or below 0.05.  You need to roughly double the size of the previous study to have a well powered replication in this case.
+
+* Consider how generalisable effect sizes and standard errors are likely to be from one technology to another or setting to another.  For example, you might be planning a human study, but have information on likely effect sizes and variance from in vitro colon model studies.  This is likely to be useful, but not directly transferable, so consider what proportion of the effect observed in vitro would be expected, or would still be worth pursing if observed in the follow-up study, and calculate power/sample size according to this.
 
 ## How does sample size affect an experiment
 
@@ -36,19 +60,19 @@ So, for example, as sample size doubles, standard error of estimates (hence the 
 
 ## Information needed for a sample size calculation
 
-So choosing the sample size requires that you know: 
+To conduct a traditional sample size calculation, you need to know: 
 
 1. **The hypothesis (or hypotheses) that you are planning to test or the parameters you want to estimate.**  These will follow from your study aims.  
 2. The study design and analytical methods you will use to address these aims
-3. **The likely variation in the outcome measures.**  This will likely come from prior data on a similar outcome in a similar population.  
+3. **The likely variation in the outcome measures across samples.**  This will likely come from prior data on a similar outcome in a similar population.  
 4. **The precision required, or the size of the effect that you want to be able to reliably detect.**  The precision required or minimum effect sizes can be guided by a combination of prior data (to establish what might be a feasible difference) and your own study aims (to establish what is the smallest difference that would be considered important enough not to want to miss).
 
 And if you will use a 'hypothesis testing' framework in your analysis:
 
 5. **The threshold for statistical significance.**  Our convention is to apply a threshold of p<0.05 for statistical significance.  The most commmon reason for deviating from a critical threshold of 0.05 is an adjustment for multiple testing.  If you are testing many hypotheses (such as many different candidate microbiome features) then you might make a correction to a p-value, controlling instead a false discovery rate (FDR) in which case the required FDR should be known.
-6. **The required power.**  How much risk of missing a true effect are you willing to accept, equivilantly what proportion of missed true effects are you willing to accept.
+6. **The required power.**  How much risk of missing a true effect are you willing to accept, or what proportion of missed true effects are you willing to accept.
 
-# Approaches to power and sample size considerations
+# Study design considerations
 
 ### Complex designs 1 : Cross-over and paired designs or repeated measure designs with the comparison *within* groups.
 
@@ -71,11 +95,13 @@ where $ICC$ is intra-class correlation within pairs of observations.
 
 So the effective sample size has been increased by a factor of $\frac{1}{1-ICC}$, so we can reduce the sample size by this same factor.
 
-Note the benefit of using a paired design depends on the 
+Note the benefit of using a paired design depends on the ICC.  If there is little intra-class correlation, (eg if pre- and post- measures are largely uncorrelated in an RCT) then nothing is gained for the expense of taking the extra measurement.  If the pairs are very highly correlated, and the ICC is close to 1, then the sample size can be dramatically reduced.
+
+*To be added - the typical ICC for microbiome features in different circumstances*
 
 ### Complex designs 2 : Cage-effects and intra-class correlation and repeated measures designs with the comparison *across* groups.
 
-Statistical power (and precision) is detemined by the number of independent experimental units. Where units are not treated independently of each other, so called 'intra-class correlations' (ICC) can be introduced, and this affects the calculation of standard error and hence study power and required sample sizes.
+Statistical power (and precision) is determined by the number of independent experimental units. Where units are not treated independently of each other, so called 'intra-class correlations' (ICC) can be introduced, and this affects the calculation of standard error and hence study power and required sample sizes.
 
 ICC between experimental units can be caused by factors that jointly influence specific units (such as a shared environment, shared genetic background, or contamination within a group).  This can caused outcomes within groups to be more similar than we would expect by chance, and so each unit contributes less information to the study than 
 
@@ -89,26 +115,29 @@ Where ICC is the intra-class correlation, and $n$ is the number of animals per g
 
 $ICC = \frac{{sd}^2_{between}}{ {sd}^2_{between} + {sd}^2_{within}}$
 
-For example, an ICC of 0.3 is not uncommon in the microbiomes of mice housed in the same cages (correspond to around 1/3 of variance being cage-specific as opposed to mouse-specific).  So if mice are to be housed five to a cage, then required sample sizes should be inflated by a factor of around $1+.3*4 = 2.2$ to account for this.
+For example, an ICC of 0.3 is not uncommon in the microbiomes of mice housed in the same cages (correspond to around 1/3 of variance being cage-specific as opposed to mouse-specific).  So if mice are to be housed five to a cage, then required sample sizes should be inflated by a factor of around $1+.3*(5-1) = 2.2$ to account for this.
 
 ### Methods for sample size calculation
 
-For simple designs and analyses, required sample sizes can be calculated using standard formulas.  For example, if your aim is to compare alpha diversity between two independent groups, a power calculation for a simple unpaired t-test would be appropriate. Standard free to use tools such as 'G*power' or functions from the 'R' 'pwr' and 'pwr2' packages can be used. 
+For simple research questions based on one or a few microbial features (such as a specific diversity measure or presence or abundance of a particular species), required sample sizes can be calculated using standard formulas.
 
-## Example:  Sample size calculation for alpha diversity
+For example, if your aim is to compare alpha diversity between two independent groups, a power calculation for a simple unpaired t-test would be appropriate. Standard free-to-use tools such as `G*power` or functions from various `R` packges can be used depending on the design.
 
+For more exploratory work, it is difficult to determine a 'required' sample size, since the goals of the study in terms of its success or failure are ambiguous.  The greater the sample size, 
 
 ## Power and sample size by simulation
 
 For more complex designs or outcomes, where formulas are not available, sample sizes can be calculated by simulation.  This proceeds as follows:
 
 1. Create 'fake' datasets that are as similar as possible to the real data that you are likely to observe, with typical levels of variation and including the effects that you wish to be able to detect.
+
 2. Analyse these using your planned methods, and find the proportion of datasets in which you were able to successfully detect the effect(s) of interest.
+
 3. Vary the sample size and any other assumptions to check how the power varies.
 
-This method relies on being able to simulate realisticly structured datasets with realistic but artificially induced effects.
+This method relies on being able to simulate realistically structured datasets with realistic but artificially induced effects.  Fortunately with the increasing amount of microbiome data being publically available this is not unfeasible.
 
-There are two main approaches for this.  XX presents a guide to achiving this...
+There are two main approaches for this.
 
 # Approaches to power and sample size for typical aims
 
